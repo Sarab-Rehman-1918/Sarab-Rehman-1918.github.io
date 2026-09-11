@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Muhammad Sarab Ur Rehman — Applied AI / ML Engineer</title>
+<meta name="description" content="Muhammad Sarab Ur Rehman — Applied AI / ML Engineer working in Deep Learning, Generative AI, and Brain-Computer Interface research." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#080b16;
+    --bg-2:#0b1020;
+    --surface:#0e1526;
+    --surface-2:#111a30;
+    --line:rgba(126,146,201,.16);
+    --line-strong:rgba(126,146,201,.28);
+    --ink:#e9edfa;
+    --ink-dim:#96a2c4;
+    --ink-faint:#5f6c8f;
+    --violet:#7c6cff;
+    --violet-bright:#9b8cff;
+    --cyan:#57d9e8;
+    --grid:rgba(124,108,255,.05);
+    --maxw:1160px;
+    --r:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:rgba(124,108,255,.32);color:#fff;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .mono{font-family:"IBM Plex Mono",monospace;}
+
+  /* ---------- background grid ---------- */
+  .bg-grid{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--grid) 1px,transparent 1px),
+      linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 78%);
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 78%);
+  }
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    backdrop-filter:blur(10px);
+    background:linear-gradient(180deg,rgba(8,11,22,.86),rgba(8,11,22,.4));
+    border-bottom:1px solid transparent;
+    transition:border-color .3s ease,background .3s ease;
+  }
+  header.nav.scrolled{border-bottom-color:var(--line);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px;}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:.2px;font-size:15px;}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulse 2.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.45;transform:scale(.72);}}
+  nav.links{display:flex;gap:28px;}
+  nav.links a{color:var(--ink-dim);font-size:14.5px;position:relative;transition:color .2s;}
+  nav.links a::after{content:"";position:absolute;left:0;bottom:-6px;height:1.5px;width:0;background:var(--violet-bright);transition:width .25s ease;}
+  nav.links a:hover{color:var(--ink);}
+  nav.links a:hover::after{width:100%;}
+  .nav-cta{border:1px solid var(--line-strong);padding:8px 16px;border-radius:999px;font-size:14px;color:var(--ink);transition:border-color .2s,background .2s;}
+  .nav-cta:hover{border-color:var(--violet);background:rgba(124,108,255,.1);}
+  @media(max-width:760px){nav.links{display:none;}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;z-index:1;padding:150px 0 70px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--ink-dim);font-size:13.5px;letter-spacing:.4px;margin-bottom:26px;}
+  .eyebrow .chip{font-family:"IBM Plex Mono",monospace;color:var(--cyan);border:1px solid var(--line-strong);border-radius:6px;padding:3px 8px;font-size:12px;}
+  h1.name{
+    font-family:"Bricolage Grotesque",sans-serif;
+    font-weight:700;
+    font-size:clamp(2.9rem,8.2vw,6.2rem);
+    line-height:.98;
+    letter-spacing:-.02em;
+    margin:0 0 8px;
+  }
+  h1.name .l2{color:var(--ink-dim);}
+  .role{
+    font-size:clamp(1.05rem,2.2vw,1.4rem);
+    color:var(--ink);
+    max-width:38ch;
+    margin:26px 0 0;
+    font-weight:500;
+  }
+  .role b{color:var(--violet-bright);font-weight:600;}
+  .hero-sub{color:var(--ink-dim);max-width:56ch;margin:18px 0 0;font-size:16px;}
+
+  /* signal canvas band */
+  .signal{position:relative;height:150px;margin:44px 0 40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .signal canvas{display:block;width:100%;height:100%;}
+  .signal .readout{position:absolute;top:10px;right:2px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);letter-spacing:.5px;}
+  .signal .ylabel{position:absolute;left:2px;top:10px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);letter-spacing:.5px;}
+
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:15px;font-weight:600;
+    padding:13px 22px;border-radius:11px;
+    transition:transform .18s ease,box-shadow .25s ease,background .2s;
+  }
+  .btn svg{width:17px;height:17px;}
+  .btn-primary{background:var(--violet);color:#fff;box-shadow:0 8px 30px -10px rgba(124,108,255,.7);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -12px rgba(124,108,255,.85);}
+  .btn-ghost{border:1px solid var(--line-strong);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--violet);background:rgba(124,108,255,.08);transform:translateY(-2px);}
+
+  /* quick stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);}
+  .stat{padding:24px 22px;border-right:1px solid var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:2.1rem;line-height:1;color:var(--ink);}
+  .stat .num span{color:var(--violet-bright);}
+  .stat .lbl{color:var(--ink-dim);font-size:13.5px;margin-top:9px;}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr);}.stat:nth-child(2){border-right:none;}.stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line);}}
+
+  /* ---------- section scaffolding ---------- */
+  section{position:relative;z-index:1;padding:96px 0;}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:14px;}
+  .sec-idx{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--violet-bright);}
+  h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.7rem);letter-spacing:-.02em;margin:0;}
+  .sec-lead{color:var(--ink-dim);max-width:60ch;margin:18px 0 54px;font-size:16.5px;}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:start;}
+  .about-grid p{color:var(--ink-dim);margin:0 0 20px;}
+  .about-grid p strong{color:var(--ink);font-weight:600;}
+  .facts{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden;}
+  .fact{display:flex;justify-content:space-between;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line);font-size:14.5px;}
+  .fact:last-child{border-bottom:none;}
+  .fact .k{color:var(--ink-faint);font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.3px;}
+  .fact .v{color:var(--ink);text-align:right;font-weight:500;}
+  @media(max-width:820px){.about-grid{grid-template-columns:1fr;gap:34px;}}
+
+  /* ---------- experience timeline ---------- */
+  .tl{position:relative;margin-left:6px;}
+  .tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(var(--violet),transparent);}
+  .job{position:relative;padding:0 0 46px 42px;}
+  .job:last-child{padding-bottom:0;}
+  .job .node{position:absolute;left:0;top:5px;width:15px;height:15px;border-radius:50%;background:var(--bg);border:2px solid var(--violet);}
+  .job .node::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--violet);opacity:0;transition:opacity .3s;}
+  .job:hover .node::after{opacity:1;}
+  .job .when{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--cyan);letter-spacing:.4px;}
+  .job h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1.35rem;margin:8px 0 2px;}
+  .job .org{color:var(--ink-dim);font-size:15px;margin-bottom:14px;}
+  .job .org b{color:var(--ink);font-weight:600;}
+  .job ul{margin:0;padding-left:18px;color:var(--ink-dim);font-size:15.5px;}
+  .job ul li{margin-bottom:7px;}
+  .job ul li b{color:var(--ink);font-weight:600;}
+
+  /* ---------- projects ---------- */
+  .proj{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:34px;margin-bottom:22px;transition:border-color .3s ease,transform .3s ease;position:relative;overflow:hidden;}
+  .proj::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 200px at var(--mx,80%) -10%,rgba(124,108,255,.14),transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none;}
+  .proj:hover{border-color:var(--line-strong);transform:translateY(-3px);}
+  .proj:hover::before{opacity:1;}
+  .proj.feature{background:linear-gradient(160deg,var(--surface-2),var(--surface));border-color:var(--line-strong);}
+  .proj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
+  .proj .kind{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--cyan);letter-spacing:.5px;margin-bottom:14px;}
+  .proj h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:clamp(1.4rem,2.6vw,1.9rem);margin:0 0 4px;letter-spacing:-.01em;}
+  .proj p{color:var(--ink-dim);margin:14px 0 0;max-width:70ch;font-size:16px;}
+  .proj .metrics{display:flex;flex-wrap:wrap;gap:26px;margin:24px 0 4px;}
+  .proj .metric .m-num{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.7rem;color:var(--ink);line-height:1;}
+  .proj .metric .m-num span{color:var(--violet-bright);}
+  .proj .metric .m-lbl{color:var(--ink-faint);font-size:12.5px;margin-top:7px;font-family:"IBM Plex Mono",monospace;letter-spacing:.3px;}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;}
+  .tag{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-dim);border:1px solid var(--line);border-radius:7px;padding:5px 10px;background:rgba(126,146,201,.04);}
+  .proj-link{display:inline-flex;align-items:center;gap:8px;color:var(--violet-bright);font-weight:600;font-size:14.5px;white-space:nowrap;border:1px solid var(--line-strong);padding:9px 15px;border-radius:9px;transition:background .2s,border-color .2s;}
+  .proj-link:hover{background:rgba(124,108,255,.12);border-color:var(--violet);}
+  .proj-link svg{width:15px;height:15px;}
+  .proj .fyp-note{display:inline-block;margin-top:22px;font-size:13.5px;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace;}
+
+  /* ---------- skills ---------- */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .skillcard{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:26px 24px;}
+  .skillcard h4{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12.5px;color:var(--cyan);letter-spacing:.6px;margin:0 0 16px;}
+  .skillcard .chips{display:flex;flex-wrap:wrap;gap:9px;}
+  .skillcard .chips span{font-size:14px;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 12px;background:rgba(126,146,201,.05);transition:border-color .2s,color .2s;}
+  .skillcard .chips span:hover{border-color:var(--violet);color:var(--violet-bright);}
+  @media(max-width:720px){.skills-grid{grid-template-columns:1fr;}}
+
+  /* ---------- certs ---------- */
+  .certs{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);}
+  .cert{display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);}
+  .cert:nth-child(2n){border-right:none;}
+  .cert .cnum{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--violet-bright);}
+  .cert .ctitle{font-weight:600;font-size:15px;}
+  .cert .cmeta{color:var(--ink-faint);font-size:13px;font-family:"IBM Plex Mono",monospace;margin-left:auto;white-space:nowrap;}
+  @media(max-width:640px){.certs{grid-template-columns:1fr;}.cert{border-right:none;}.cert .cmeta{display:none;}}
+
+  /* ---------- contact ---------- */
+  .contact{border-top:1px solid var(--line);text-align:center;padding:110px 0 0;}
+  .contact h2{font-size:clamp(2.2rem,6vw,4rem);}
+  .contact p{color:var(--ink-dim);max-width:48ch;margin:20px auto 40px;}
+  .contact .email-link{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:clamp(1.2rem,3.4vw,2rem);color:var(--violet-bright);border-bottom:1px solid var(--line-strong);padding-bottom:4px;transition:border-color .2s;}
+  .contact .email-link:hover{border-color:var(--violet);}
+  .socials{display:flex;justify-content:center;gap:14px;margin-top:44px;flex-wrap:wrap;}
+  .social{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line-strong);border-radius:10px;padding:11px 18px;font-size:14.5px;color:var(--ink-dim);transition:color .2s,border-color .2s,background .2s;}
+  .social:hover{color:var(--ink);border-color:var(--violet);background:rgba(124,108,255,.08);}
+  .social svg{width:17px;height:17px;}
+  footer{margin-top:96px;border-top:1px solid var(--line);padding:26px 0;}
+  .foot-inner{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;color:var(--ink-faint);font-size:13px;font-family:"IBM Plex Mono",monospace;}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    .brand .dot{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+  :focus-visible{outline:2px solid var(--violet-bright);outline-offset:3px;border-radius:4px;}
+</style>
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top"><span class="dot"></span>Sarab&nbsp;Ur&nbsp;Rehman</a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="Sarab_Rehman_CV.pdf" target="_blank" rel="noopener">Résumé</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow"><span class="chip">AI / ML</span> Applied AI &amp; Machine Learning Engineer</div>
+      <h1 class="name">Muhammad Sarab<br><span class="l2">Ur Rehman</span></h1>
+      <p class="role">I build <b>deep learning</b> and <b>generative AI</b> systems — from brain-signal models to clinical decision support.</p>
+      <p class="hero-sub">Final-year Computer Engineering student at UET Lahore, focused on the full model lifecycle: data preprocessing, algorithm development, training, and shipping models into working products.</p>
+
+      <div class="signal" aria-hidden="true">
+        <span class="ylabel">EEG · ch.01</span>
+        <span class="readout">live signal</span>
+        <canvas id="wave"></canvas>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#projects">See the work
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="Sarab_Rehman_CV.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download CV
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/Sarab-Rehman-1918" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+          GitHub
+        </a>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="num">3<span>×</span></div><div class="lbl">AI/ML internships</div></div>
+        <div class="stat"><div class="num">3.78<span>/4</span></div><div class="lbl">CGPA · UET Lahore</div></div>
+        <div class="stat"><div class="num">10</div><div class="lbl">shipped projects</div></div>
+        <div class="stat"><div class="num">5<span>×</span></div><div class="lbl">Google certificates</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-idx">01</span><h2>About</h2></div>
+      <div class="about-grid reveal">
+        <div>
+          <p>I'm a Computer Engineering student who likes taking a model the whole way — from raw, messy data to something a person can actually use. My work spans <strong>deep learning, generative AI, computer vision, and NLP</strong>, and I care about the parts that get skipped: careful preprocessing, honest evaluation, and explainability.</p>
+          <p>My research interest is <strong>Brain-Computer Interfaces</strong>. For my final-year work I've been building tools that check whether AI-generated brain signals are actually safe to use in clinical settings — because a synthetic EEG can look statistically fine and still be medically wrong.</p>
+          <p>Across internships at <strong>ITSOLERA</strong>, <strong>Ezitech</strong>, and <strong>Finetech</strong>, I've shipped clinical ML, generative-model benchmarks, and a real-time computer-vision control system.</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><span class="k">education</span><span class="v">B.Sc. Computer Engineering</span></div>
+          <div class="fact"><span class="k">university</span><span class="v">UET Lahore · Exp. 2027</span></div>
+          <div class="fact"><span class="k">cgpa</span><span class="v">3.783 / 4.0</span></div>
+          <div class="fact"><span class="k">focus</span><span class="v">Deep Learning · GenAI · BCI</span></div>
+          <div class="fact"><span class="k">location</span><span class="v">Lahore, Pakistan</span></div>
+          <div class="fact"><span class="k">status</span><span class="v">Open to AI/ML roles</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-idx">02</span><h2>Experience</h2></div>
+      <p class="sec-lead">Three internships across generative AI, clinical machine learning, and computer vision.</p>
+      <div class="tl reveal">
+        <div class="job">
+          <span class="node"></span>
+          <div class="when">JUN 2026 — AUG 2026</div>
+          <h3>AI &amp; Generative AI Intern</h3>
+          <div class="org"><b>ITSOLERA Pvt Ltd</b> · Islamabad, Pakistan</div>
+          <ul>
+            <li>Contributed to AI and Generative AI projects across model development, experimentation, and evaluation.</li>
+            <li>Delivered a physiologically grounded benchmarking suite evaluating synthetic EEG across <b>3 generative model families</b> (VAE, GAN, Diffusion) for BCI research.</li>
+          </ul>
+        </div>
+        <div class="job">
+          <span class="node"></span>
+          <div class="when">MAR 2026 — JUN 2026</div>
+          <h3>Machine Learning Intern</h3>
+          <div class="org"><b>Ezitech Institute</b> · Rawalpindi, Pakistan</div>
+          <ul>
+            <li>Built <b>ClinIQ</b>, a clinical decision-support platform predicting risk across <b>6 diseases</b>, reaching up to <b>0.97–0.99 ROC-AUC</b>.</li>
+            <li>Added SHAP explainability and served predictions via a FastAPI backend and a React dashboard, with MLflow tracking.</li>
+          </ul>
+        </div>
+        <div class="job">
+          <span class="node"></span>
+          <div class="when">JAN 2026 — FEB 2026</div>
+          <h3>Computer Vision Intern</h3>
+          <div class="org"><b>Finetech</b> · Chichawatni, Pakistan</div>
+          <ul>
+            <li>Developed <b>GestureDesk</b>, mapping webcam hand gestures to <b>12+ mouse, media, and OS actions</b> in real time.</li>
+            <li>Implemented 21-point hand tracking with MediaPipe and OpenCV, plus an optional face-recognition lock.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-idx">03</span><h2>Selected projects</h2></div>
+      <p class="sec-lead">Ten projects spanning research, clinical ML, generative AI, agentic systems, and real-time computer vision — each built end to end.</p>
+
+      <!-- Feature: BCI -->
+      <article class="proj feature reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">RESEARCH · FINAL-YEAR WORK</div>
+            <h3>Synthetic Neural-Data Benchmarks for BCI</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/Standardized-Evaluation-Benchmarks-for-Synthetic-Neural-Data-in-BCI-Research" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>An open-source suite that judges AI-generated EEG by brain-science rules instead of borrowed image metrics. It scores synthetic signals on four neurophysiology-grounded measures and runs a clinical safety test — so researchers know if their synthetic data is genuinely useful or just statistically plausible but clinically harmful.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">4</div><div class="m-lbl">neuro metrics</div></div>
+          <div class="metric"><div class="m-num">3</div><div class="m-lbl">generators benchmarked</div></div>
+          <div class="metric"><div class="m-num">CHB-MIT</div><div class="m-lbl">epilepsy dataset</div></div>
+        </div>
+        <div class="tags"><span class="tag">PyTorch</span><span class="tag">VAE</span><span class="tag">GAN</span><span class="tag">Diffusion</span><span class="tag">EEG</span><span class="tag">Signal Processing</span></div>
+      </article>
+
+      <!-- ClinIQ -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">CLINICAL ML · FULL-STACK</div>
+            <h3>ClinIQ — Clinical Decision Support</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/ClinIQ" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>Predicts early disease risk across six conditions, then explains every prediction with SHAP so a clinician can see the reasoning. Full pipeline from data preprocessing and feature engineering to model training, served through a FastAPI backend and a disease-selector React dashboard.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">6</div><div class="m-lbl">diseases covered</div></div>
+          <div class="metric"><div class="m-num">0.97<span>+</span></div><div class="m-lbl">top ROC-AUC</div></div>
+          <div class="metric"><div class="m-num">175<span>K</span></div><div class="m-lbl">records (largest set)</div></div>
+        </div>
+        <div class="tags"><span class="tag">XGBoost</span><span class="tag">LightGBM</span><span class="tag">SHAP</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">MLflow</span></div>
+      </article>
+
+      <!-- GestureDesk -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">COMPUTER VISION · REAL-TIME</div>
+            <h3>GestureDesk — Touchless Control</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/GestureDesk" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>Run your whole desktop from your webcam — cursor, clicks, scroll, volume, brightness, and OS shortcuts, all from hand gestures. An optional face lock means the gestures only respond while you're the one in frame.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">12<span>+</span></div><div class="m-lbl">mapped actions</div></div>
+          <div class="metric"><div class="m-num">21</div><div class="m-lbl">tracked hand points</div></div>
+          <div class="metric"><div class="m-num">real-time</div><div class="m-lbl">webcam inference</div></div>
+        </div>
+        <div class="tags"><span class="tag">MediaPipe</span><span class="tag">OpenCV</span><span class="tag">Python</span><span class="tag">Face Recognition</span></div>
+      </article>
+
+      <!-- FYP Rescue bot -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">NLP · SPEECH · IN PROGRESS</div>
+            <h3>Voice Emergency &amp; First-Aid Assistant</h3>
+          </div>
+        </div>
+        <p>A voice assistant for emergency calls that listens, works out what kind of emergency it is, and talks the caller through first aid in real time while responders are on the way — built to handle different accents and mixed-language speech.</p>
+        <div class="tags"><span class="tag">NLP</span><span class="tag">Speech-to-Text</span><span class="tag">Text-to-Speech</span><span class="tag">Conversational AI</span><span class="tag">LLMs</span></div>
+        <span class="fyp-note">// final-year project · currently in development</span>
+      </article>
+
+      <!-- Deepfake Image Classifier -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">GENERATIVE AI · COMPUTER VISION</div>
+            <h3>Deepfake Image Classifier</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/Deepfake-Image-Classifier" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>A CNN-based deepfake classifier trained on CIFAKE that goes past plain accuracy to test what actually matters: does it generalize to generators it never trained on, does it hold up under JPEG compression and resizing, and does swapping in CLIP semantic features actually help? Ships with a FastAPI backend, React frontend, Gradio demo, and Grad-CAM explanations — plus an honestly-reported negative result on cross-generator generalization.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">94.7<span>%</span></div><div class="m-lbl">in-domain test accuracy</div></div>
+          <div class="metric"><div class="m-num">3</div><div class="m-lbl">approaches benchmarked</div></div>
+          <div class="metric"><div class="m-num">9</div><div class="m-lbl">degradation corruptions tested</div></div>
+        </div>
+        <div class="tags"><span class="tag">PyTorch</span><span class="tag">CNN</span><span class="tag">CLIP</span><span class="tag">Grad-CAM</span><span class="tag">FastAPI</span><span class="tag">React</span></div>
+      </article>
+
+      <!-- IntelliDeck AI -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">GENERATIVE AI · RAG</div>
+            <h3>IntelliDeck AI — Sources to Slides</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/IntelliDeck-AI" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>Turns a YouTube video, an audio/video recording, a PDF, a Word document, or pasted text into a searchable knowledge base — then answers questions strictly grounded in what you added, summarizes it in one click, or generates a fully illustrated PowerPoint deck. Runs Groq Whisper for transcription, Llama 3.3 70B for grounded Q&amp;A and slide outlines, Flux Schnell for slide imagery, and a local ChromaDB vector store.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">5</div><div class="m-lbl">input formats supported</div></div>
+          <div class="metric"><div class="m-num">grounded</div><div class="m-lbl">retrieval-based Q&amp;A</div></div>
+          <div class="metric"><div class="m-num">auto</div><div class="m-lbl">-generated .pptx decks</div></div>
+        </div>
+        <div class="tags"><span class="tag">LLMs</span><span class="tag">RAG</span><span class="tag">ChromaDB</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">python-pptx</span></div>
+      </article>
+
+      <!-- Ledger Discrepancy Narrator -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">GENERATIVE AI · FINANCE</div>
+            <h3>Ledger Discrepancy Narrator</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/Ledger-Discrepancy-Narrator" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>Compares transaction logs across ERP, Bank, CRM, and Payment systems, deterministically flags mismatches — unmatched, duplicated, mistimed, or partial — and then generates a plain-language, evidence-linked root-cause explanation for each one with an LLM. Detection stays rule-based and verifiable; the model is only ever allowed to describe what detection has already proven, so it can't invent a plausible-sounding but ungrounded story for a mismatch.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">4</div><div class="m-lbl">financial systems reconciled</div></div>
+          <div class="metric"><div class="m-num">rule-based</div><div class="m-lbl">detection engine</div></div>
+          <div class="metric"><div class="m-num">evidence-linked</div><div class="m-lbl">AI narratives</div></div>
+        </div>
+        <div class="tags"><span class="tag">LLMs</span><span class="tag">OpenRouter</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">Financial Reconciliation</span></div>
+      </article>
+
+      <!-- Multimodal Clinical Report Generator -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">GENERATIVE AI · CLINICAL · MULTIMODAL</div>
+            <h3>Grounded Multimodal Clinical Report Generator</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/Multimodal-AI-Report-System" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>A research-grade pipeline that generates radiology reports from medical images and patient history — encoding both into a shared embedding space with Swin Transformer and PubMedBERT, retrieving similar prior cases via RAG, fusing image and text with bidirectional cross-attention, then generating a cited report. A three-signal verification filter (textual consistency, visual-classifier agreement, and token-level entropy) redacts any claim it can't confirm, with a full audit log for every prediction.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">768<span>-d</span></div><div class="m-lbl">shared multimodal space</div></div>
+          <div class="metric"><div class="m-num">3</div><div class="m-lbl">independent verification signals</div></div>
+          <div class="metric"><div class="m-num">auditable</div><div class="m-lbl">per-claim confidence log</div></div>
+        </div>
+        <div class="tags"><span class="tag">PyTorch</span><span class="tag">Transformers</span><span class="tag">RAG</span><span class="tag">Cross-Attention</span><span class="tag">Swin Transformer</span><span class="tag">PubMedBERT</span></div>
+      </article>
+
+      <!-- Multi-Agent Research System -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">GENERATIVE AI · AGENTIC AI</div>
+            <h3>Multi-Agent AI Research System</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/Multi-Agent-AI-Research-System" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>A LangGraph-orchestrated pipeline of collaborating agents that turns a research topic into a finished report: one node searches the web via Tavily, another scrapes and cleans the pages, a writer node drafts a structured report, and a critic node reviews it for quality before it's finalized — a fully modular, multi-agent workflow rather than one long prompt.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">4</div><div class="m-lbl">collaborating agent nodes</div></div>
+          <div class="metric"><div class="m-num">LangGraph</div><div class="m-lbl">workflow orchestration</div></div>
+          <div class="metric"><div class="m-num">self-critiqued</div><div class="m-lbl">final report</div></div>
+        </div>
+        <div class="tags"><span class="tag">LangGraph</span><span class="tag">LangChain</span><span class="tag">LLMs</span><span class="tag">Tavily API</span><span class="tag">BeautifulSoup</span></div>
+      </article>
+
+      <!-- Face Attendance System -->
+      <article class="proj reveal" data-tilt>
+        <div class="proj-top">
+          <div>
+            <div class="kind">COMPUTER VISION · FULL-STACK</div>
+            <h3>Face Attendance System</h3>
+          </div>
+          <a class="proj-link" href="https://github.com/Sarab-Rehman-1918/Face-Attendance-System" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            Code
+          </a>
+        </div>
+        <p>A full-stack facial-recognition attendance system split into a password-protected admin console and an open walk-up scan page. Registering a student face-encodes their photo on the spot; the scan page recognizes faces from a live webcam every ~2.5 seconds, marks attendance once per day, and the admin side gives a 7-day dashboard, filterable attendance log, and one-click CSV export.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">128<span>-d</span></div><div class="m-lbl">face encodings</div></div>
+          <div class="metric"><div class="m-num">~2.5<span>s</span></div><div class="m-lbl">recognition interval</div></div>
+          <div class="metric"><div class="m-num">CSV</div><div class="m-lbl">exportable reports</div></div>
+        </div>
+        <div class="tags"><span class="tag">face_recognition</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">SQLite</span><span class="tag">JWT Auth</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-idx">04</span><h2>Toolkit</h2></div>
+      <p class="sec-lead">The stack I reach for, grouped by what it does.</p>
+      <div class="skills-grid reveal">
+        <div class="skillcard">
+          <h4>CORE ML / AI</h4>
+          <div class="chips"><span>Deep Learning</span><span>Machine Learning</span><span>Generative AI</span><span>Algorithm Development</span><span>Data Preprocessing</span><span>Feature Engineering</span><span>Model Evaluation</span></div>
+        </div>
+        <div class="skillcard">
+          <h4>FRAMEWORKS</h4>
+          <div class="chips"><span>PyTorch</span><span>TensorFlow / Keras</span><span>Scikit-learn</span><span>XGBoost</span><span>LightGBM</span></div>
+        </div>
+        <div class="skillcard">
+          <h4>GENERATIVE AI</h4>
+          <div class="chips"><span>VAEs</span><span>GANs</span><span>Diffusion Models</span><span>LLMs</span><span>Prompt Engineering</span><span>RAG</span></div>
+        </div>
+        <div class="skillcard">
+          <h4>VISION &amp; NLP</h4>
+          <div class="chips"><span>OpenCV</span><span>MediaPipe</span><span>Speech-to-Text</span><span>Text-to-Speech</span><span>NLP</span></div>
+        </div>
+        <div class="skillcard">
+          <h4>LANGUAGES</h4>
+          <div class="chips"><span>Python</span><span>C / C++</span><span>SQL</span><span>R</span><span>JavaScript</span></div>
+        </div>
+        <div class="skillcard">
+          <h4>MLOPS &amp; TOOLS</h4>
+          <div class="chips"><span>Docker</span><span>FastAPI</span><span>MLflow</span><span>SHAP</span><span>Git / GitHub</span><span>React</span><span>Streamlit</span><span>Tableau</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certs">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-idx">05</span><h2>Certifications</h2></div>
+      <p class="sec-lead">Professional certificates from Google, via Coursera.</p>
+      <div class="certs reveal">
+        <div class="cert"><span class="cnum">01</span><span class="ctitle">Google AI</span><span class="cmeta">Professional · 2026</span></div>
+        <div class="cert"><span class="cnum">02</span><span class="ctitle">Google AI Essentials</span><span class="cmeta">2025</span></div>
+        <div class="cert"><span class="cnum">03</span><span class="ctitle">Google Data Analytics</span><span class="cmeta">Professional · 2025</span></div>
+        <div class="cert"><span class="cnum">04</span><span class="ctitle">Google Project Management</span><span class="cmeta">Professional · 2025</span></div>
+        <div class="cert"><span class="cnum">05</span><span class="ctitle">Introduction to Git &amp; GitHub</span><span class="cmeta">Google · 2025</span></div>
+        <div class="cert"><span class="cnum">06</span><span class="ctitle">Cyber Security Workshop</span><span class="cmeta">CSS · UET Lahore</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <div class="sec-head" style="justify-content:center;"><span class="sec-idx">06</span><h2>Let's build something</h2></div>
+      <p>Open to AI/ML, Generative AI, and research roles. The fastest way to reach me is email.</p>
+      <a class="email-link" href="mailto:sarabrehman1918@gmail.com">sarabrehman1918@gmail.com</a>
+      <div class="socials">
+        <a class="social" href="https://github.com/Sarab-Rehman-1918" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0112 6.84c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+          GitHub
+        </a>
+        <a class="social" href="https://www.linkedin.com/in/muhammad-sarab-ur-rehman-b671bb282" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 11 0-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+        <a class="social" href="tel:+923255969791">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0122 16.92z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          +92 325 5969791
+        </a>
+      </div>
+    </div>
+    <footer>
+      <div class="wrap foot-inner">
+        <span>© 2026 Muhammad Sarab Ur Rehman</span>
+        <span>Built from scratch · Lahore, PK</span>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<script>
+  // nav shadow on scroll
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12), {passive:true});
+
+  // reveal on scroll
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // project glow follows cursor
+  document.querySelectorAll('.proj').forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left)/r.width*100) + '%');
+    });
+  });
+
+  // ---- hero signal: EEG-like multi-band trace ----
+  const canvas = document.getElementById('wave');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr;
+  function resize(){
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W*dpr; canvas.height = H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize(); addEventListener('resize', () => { resize(); if(reduce) draw(0.8); });
+
+  // pseudo-random but smooth EEG: sum of sines with drifting phases + light noise
+  const bands = [
+    {a:0.30, f:0.016, s:0.7},
+    {a:0.18, f:0.042, s:1.3},
+    {a:0.10, f:0.088, s:-0.9},
+    {a:0.06, f:0.150, s:1.9}
+  ];
+  function sample(x, t){
+    let y = 0;
+    for(const b of bands){ y += b.a * Math.sin(x*b.f + t*b.s); }
+    y += (Math.sin(x*0.7 + t*3.1)*0.5+Math.sin(x*1.9+t*2.2)*0.5)*0.03; // fine texture
+    return y;
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    const mid = H/2;
+    const grad = ctx.createLinearGradient(0,0,W,0);
+    grad.addColorStop(0, 'rgba(87,217,232,0)');
+    grad.addColorStop(0.14,'rgba(87,217,232,.9)');
+    grad.addColorStop(0.55,'rgba(124,108,255,1)');
+    grad.addColorStop(0.9, 'rgba(155,140,255,.9)');
+    grad.addColorStop(1,  'rgba(155,140,255,0)');
+
+    // faint echo trace
+    ctx.beginPath();
+    for(let px=0; px<=W; px+=2){
+      const y = mid + sample(px, t-0.6) * (H*0.32);
+      px===0 ? ctx.moveTo(px,y) : ctx.lineTo(px,y);
+    }
+    ctx.strokeStyle='rgba(124,108,255,.16)'; ctx.lineWidth=1.2; ctx.stroke();
+
+    // main trace
+    ctx.beginPath();
+    for(let px=0; px<=W; px+=1.5){
+      const y = mid + sample(px, t) * (H*0.34);
+      px===0 ? ctx.moveTo(px,y) : ctx.lineTo(px,y);
+    }
+    ctx.strokeStyle=grad; ctx.lineWidth=2; ctx.lineJoin='round';
+    ctx.shadowColor='rgba(124,108,255,.55)'; ctx.shadowBlur=12;
+    ctx.stroke(); ctx.shadowBlur=0;
+  }
+  if(reduce){
+    draw(0.8);
+    addEventListener('load', () => { resize(); draw(0.8); });
+  } else {
+    let start=null;
+    function loop(ts){
+      if(!start) start=ts;
+      draw((ts-start)/1000 * 0.9);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  }
+</script>
+</body>
+</html>
