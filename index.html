@@ -410,16 +410,21 @@
         <div class="tags"><span class="tag">MediaPipe</span><span class="tag">OpenCV</span><span class="tag">Python</span><span class="tag">Face Recognition</span></div>
       </article>
 
-      <!-- FYP Rescue bot -->
+      <!-- FYP: Dataflow-Reconfigurable CNN Accelerator -->
       <article class="proj reveal" data-tilt>
         <div class="proj-top">
           <div>
-            <div class="kind">NLP · SPEECH · IN PROGRESS</div>
-            <h3>Voice Emergency &amp; First-Aid Assistant</h3>
+            <div class="kind">HARDWARE · AI ACCELERATORS · IN PROGRESS</div>
+            <h3>Dataflow-Reconfigurable CNN Accelerator</h3>
           </div>
         </div>
-        <p>A voice assistant for emergency calls that listens, works out what kind of emergency it is, and talks the caller through first aid in real time while responders are on the way — built to handle different accents and mixed-language speech.</p>
-        <div class="tags"><span class="tag">NLP</span><span class="tag">Speech-to-Text</span><span class="tag">Text-to-Speech</span><span class="tag">Conversational AI</span><span class="tag">LLMs</span></div>
+        <p>A from-scratch SystemVerilog re-implementation of a CNN accelerator from IEEE Micro (2026) that picks the best dataflow for every layer — weight-stationary or input-stationary — across 18 systolic processing-element arrays. One parameterized design generates all seven dataflow variants; each is verified bit-exactly against a NumPy reference on AlexNet, LeNet, VGG-16, and ConvNeXt layers, then synthesized in Cadence Genus to test whether the paper's area, power, and performance claims hold up.</p>
+        <div class="metrics">
+          <div class="metric"><div class="m-num">18</div><div class="m-lbl">systolic PE arrays</div></div>
+          <div class="metric"><div class="m-num">7</div><div class="m-lbl">dataflow variants</div></div>
+          <div class="metric"><div class="m-num">Int8</div><div class="m-lbl">edge inference</div></div>
+        </div>
+        <div class="tags"><span class="tag">SystemVerilog</span><span class="tag">Python</span><span class="tag">NumPy</span><span class="tag">Cadence Genus</span><span class="tag">Systolic Arrays</span><span class="tag">CNN Accelerators</span></div>
         <span class="fyp-note">// final-year project · currently in development</span>
       </article>
 
